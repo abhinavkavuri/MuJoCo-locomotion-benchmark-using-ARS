@@ -43,6 +43,7 @@ class Normalizer():
         obs_mean = self.mean
         obs_std = np.sqrt(self.var)
         return (inputs - obs_mean) / obs_std
+<<<<<<< HEAD
     
 #Policy
         
@@ -70,3 +71,5 @@ class Policy():
         self.theta += hp.learning_rate / (hp.nb_best_directions * sigma_r) * step
 
 
+=======
+>>>>>>> master
