@@ -13,13 +13,13 @@ class Hp():
     def __init__(self):
         self.nb_steps = 1000
         self.episode_length = 1000
-        self.learning_rate = 0.02
+        self.learning_rate = 0.03
         self.nb_directions = 16
         self.nb_best_directions = 16
         assert self.nb_best_directions <= self.nb_directions
         self.noise = 0.03
         self.seed = 1
-        self.env_name = ''
+        self.env_name = 'HopperBulletEnv-v0'
         
 #Normalization
         
@@ -87,6 +87,61 @@ def explore(env, normalizer, policy, direction = None, delta = None):
         num_plays += 1
     return sum_rewards
 
+#Training
     
+def train(env, policy, normalizer, hp):
+    
+    for step in range(hp.nb_steps):
+        
+        # Init perturbations, deltas and rewards
+        deltas = policy.sample_deltas()
+        positive_rewards = [0] * hp.nb_directions
+        negative_rewards = [0] * hp.nb_directions
+        
+        # +ve rewards in the +ve directions
+        for k in range(hp.nb_directions):
+            positive_rewards[k] = explore(env, normalizer, policy, direction = "positive", delta = deltas[k])
+        
+        # -ve rewards in the -ve directions
+        for k in range(hp.nb_directions):
+            negative_rewards[k] = explore(env, normalizer, policy, direction = "negative", delta = deltas[k])
+        
+        # stdev of rewards
+        all_rewards = np.array(positive_rewards + negative_rewards)
+        sigma_r = all_rewards.std()
+        
+        # Sorting the rollouts by the max(r_pos, r_neg) and selecting the best directions
+        scores = {k:max(r_pos, r_neg) for k,(r_pos,r_neg) in enumerate(zip(positive_rewards, negative_rewards))}
+        order = sorted(scores.keys(), key = lambda x:scores[x], reverse = True)[:hp.nb_best_directions]
+        rollouts = [(positive_rewards[k], negative_rewards[k], deltas[k]) for k in order]
+        
+        # Update policy
+        policy.update(rollouts, sigma_r)
+        
+        # Printing the final reward of the policy after the update
+        reward_evaluation = explore(env, normalizer, policy)
+        print('Step:', step, 'Reward:', reward_evaluation)
+        
+        
+
+# Root Code
+
+def mkdir(base, name):
+    path = os.path.join(base, name)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+work_dir = mkdir('exp', 'brs')
+monitor_dir = mkdir(work_dir, 'monitor')
+
+hp = Hp()
+np.random.seed(hp.seed)
+env = gym.make(hp.env_name)
+env = wrappers.Monitor(env, monitor_dir, force = True)
+nb_inputs = env.observation_space.shape[0]
+nb_outputs = env.action_space.shape[0]
+policy = Policy(nb_inputs, nb_outputs)
+normalizer = Normalizer(nb_inputs)
+train(env, policy, normalizer, hp)     
         
         
