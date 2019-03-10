@@ -22,7 +22,7 @@
 
 Suggestions? [Open an issue](http://github.com/abhinavkavuri/MuJoCo-locomotion-benchmark-using-ARS/issues/new) on this repository
 
---
+---
 
 [Reference Paper](https://arxiv.org/pdf/1803.07055.pdf)
 
