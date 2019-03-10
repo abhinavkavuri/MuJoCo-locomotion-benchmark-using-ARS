@@ -1,1 +1,5 @@
-MuJoCo locomotion benchmark using ARS
+# Multi Joint Dynamics with Contact
+
+
+
+
