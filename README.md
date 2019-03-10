@@ -5,7 +5,21 @@
     <img src="https://i.postimg.cc/W3bP604g/Screenshot-98.png" width="600px"</img> 
 </div>
 
+#### Installing and Configuring Libraries
 
+- **numpy**    `pip install numpy` or `conda install numpy`
 
+- **libgcc**   `pip install libgcc` or `conda install libgcc`
+
+- **gym**      `pip install gym==0.10.5 ` or `pip install git+https://github.com/Kojoley/atari-py.git`
+
+- **pybullet** `pip install pybullet==2.0.8 `
+
+- **ffmpeg**   `conda install -c conda-forge ffmpeg` or `pip install ffmpeg`
+
+ 
+**Included Examples: Antv0, Half Cheetah v0, Humanoid Flag Runner v0**
+
+[Reference Paper](https://arxiv.org/pdf/1803.07055.pdf)
 
 
