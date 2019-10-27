@@ -7,7 +7,7 @@ Disclaimer: This is a Low Rank version of ARS, implemented by Alexis Jacq
 [Click Here](https://github.com/alexis-jacq/numpy_ARS)
 ---
 <div align="center">
-    <img src="https://i.postimg.cc/W3bP604g/Screenshot-98.png" width="600px"</img> 
+    <img src="https://i.postimg.cc/W3bP604g/Screenshot-98.png" width="600px"></img> 
 </div>
 
 #### Installing and Configuring Libraries
